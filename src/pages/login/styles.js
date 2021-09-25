@@ -5,7 +5,6 @@ export const Container = styled.div`
   display: flex;
   align-items: stretch;
   justify-content: center;
-  margin-top: 30px;
 `;
 
 export const Content = styled.div`

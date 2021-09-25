@@ -3,24 +3,28 @@ import { Link } from "react-router-dom";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import * as yup from "yup";
-import YupPassword from "yup-password";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import api from "../../services/api";
-YupPassword(yup);
+import { toast } from "react-toastify";
+import { Redirect, useHistory } from "react-router";
 
-const Register = () => {
+const Register = ({ authenticade }) => {
   const schema = yup.object().shape({
     name: yup.string().required("Campo Obrigatorio"),
     email: yup.string().email("Email inválido").required("Campo Obrigatorio"),
     bio: yup.string().required("Campo Obrigatorio"),
-    password: yup.string().password().required("Campo Obrigatorio"),
+    password: yup
+      .string()
+      .min(8, "minimo 8 digitos")
+      .required("Campo Obrigatorio"),
     passwordConfirm: yup
       .string()
       .oneOf([yup.ref("password")], "senhas diferentes")
       .required("Campo Obrigatorio"),
   });
 
+  const history = useHistory();
   const onSubmitFunction = ({
     name,
     email,
@@ -32,8 +36,15 @@ const Register = () => {
     const user = { name, email, bio, password, contact, course_module };
     api
       .post("/users", user)
-      .then((response) => console.log(response.data))
-      .catch((err) => console.log(err));
+      .then((response) => {
+        toast.success("Sucesso ao criar a conta");
+        return history.push("/login");
+      })
+      .catch((err) =>
+        toast.error(
+          "Erro ao criar a conta, preencha todos os campos ou tente outro e-mail"
+        )
+      );
   };
 
   const {
@@ -41,6 +52,10 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
+
+  if (authenticade) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <Container>
@@ -105,10 +120,10 @@ const Register = () => {
             <div>
               <Button type="submit">Enviar</Button>
             </div>
+            <p>
+              Já tem uma conta ? Faça seu <Link to="/login">Login</Link>
+            </p>
           </form>
-          <p>
-            Já tem uma conta ? Faça seu <Link to="/login">Login</Link>
-          </p>
         </AnimationContainer>
       </Content>
     </Container>

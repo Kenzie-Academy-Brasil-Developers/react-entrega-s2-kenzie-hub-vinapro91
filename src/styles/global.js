@@ -17,12 +17,13 @@ export default createGlobalStyle`
         --Eminence : #6b2977;
         --white: #f5f5f5;
         --black: #0c0d0d;
-        --gray: #666360
-        --red: #c53030
+        --gray: #666360;
+        --red: #c53030;
     }
 
     body {
-        background: linear-gradient(88deg,rgba(5,199,242,1) 0%,rgba(2,62,115,1) 12%,rgba(13,13,13,1) 100%);
+        background: linear-gradient(90deg,rgba(5,199,242,1) 0%,rgba(2,62,115,1) 12%,rgba(13,13,13,1) 100%);
+        
         color: var(--white)
     }
     body, input, button {
