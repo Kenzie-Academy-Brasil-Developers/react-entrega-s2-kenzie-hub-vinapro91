@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Redirect, useHistory } from "react-router";
+import { Redirect } from "react-router";
 import { InputContainer, Container, TaskContainer } from "./style";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -25,7 +25,6 @@ const Dashboard = ({ authenticade, setAuthenticate }) => {
   });
 
   const { register, handleSubmit } = useForm({ resolver: yupResolver(schema) });
-  const history = useHistory();
 
   const loadTecs = () => {
     api
@@ -34,7 +33,6 @@ const Dashboard = ({ authenticade, setAuthenticate }) => {
   };
 
   const updateTechs = (data) => {
-    console.log(data);
     api
       .post("/users/techs", data, {
         headers: {
@@ -46,6 +44,7 @@ const Dashboard = ({ authenticade, setAuthenticate }) => {
 
   useEffect(() => {
     loadTecs();
+    // eslint-disable-next-line
   }, [tecs]);
 
   const deletTech = (id) => {
