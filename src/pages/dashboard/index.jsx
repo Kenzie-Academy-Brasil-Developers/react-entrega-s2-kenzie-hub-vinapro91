@@ -42,13 +42,9 @@ const Dashboard = ({ authenticade, setAuthenticate }) => {
       .catch((err) => toast.error("Já existe essa Tecnologia"));
   };
 
-  useEffect(() => {
-    loadTecs();
-    // eslint-disable-next-line
-  }, [tecs]);
+  setInterval(loadTecs(), 180000);
 
   const deletTech = (id) => {
-    console.log(id);
     api.delete(`users/techs/${id}`, {
       headers: {
         Authorization: `Baerer ${token}`,
